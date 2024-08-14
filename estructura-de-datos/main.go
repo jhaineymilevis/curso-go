@@ -4,7 +4,10 @@ import "fmt"
 
 func main() {
 	//matrices()
-	slices()
+	//sslices()
+	//mapas()
+	//estructuras()
+	punteros()
 }
 
 // estructura de datos fijas
@@ -60,4 +63,91 @@ func slices() {
 
 	fmt.Println(rebanada1)
 	fmt.Println(rebanada2)
+}
+
+func mapas() {
+	colors := map[string]string{
+		"rojo":     "#FF0000",
+		"azul":     "#0000FF",
+		"amarillo": "#FFFF00",
+	}
+
+	fmt.Println(colors["rojo"])
+
+	colors["negro"] = "000000"
+
+	fmt.Println(colors)
+	negro, ok := colors["negro"] //el ok es una verificacion, me devuelve un booleano, donde true es que el valro existe en el mapa
+	fmt.Println(negro, ok)
+
+	if ok {
+		fmt.Println("existe el valoe")
+	} else {
+		fmt.Println("no existe el valor")
+	}
+
+	//lo mismo que arriba pero una forma abreviada de validar y tomar accion en funcion de existe o no la clave
+	if verde, okVede := colors["verde"]; okVede {
+		fmt.Println(verde)
+	} else {
+		fmt.Println("no existe el valor")
+	}
+
+	//eliminar un elemento
+	delete(colors, "negro")
+	fmt.Println(colors)
+
+	//iterar sobre un mapa
+	for clave, valor := range colors {
+		fmt.Printf("Clave: %s, valor: %s\n", clave, valor)
+	}
+
+}
+
+// el equivalente a interfaces o types
+
+type Persona struct {
+	nombre string
+	edad   int
+	correo string
+}
+
+// es un metodo de persona
+func (p *Persona) diHola() {
+	fmt.Println("Hola mi nombre es ", p.nombre)
+}
+func estructuras() {
+	var juan Persona
+	juan.nombre = "Juan"
+	juan.edad = 25
+	juan.correo = "juan@example.com"
+
+	fmt.Println(juan)
+
+	maria := Persona{"Maria", 20, "maria@example.com"}
+
+	maria.edad = 25
+	fmt.Println(maria)
+	fmt.Println(maria.nombre)
+}
+
+// almacenann la direccion en memoria de una variable
+func punteros() {
+	var i int = 10
+	var p *int = &i //p es un puntero a la variable i
+
+	fmt.Println("valor de i: ", i)
+	fmt.Println("valor de i: ", &i) //referncia de memoria de i
+	fmt.Println("valor de p: ", p)
+
+	editar(&i)
+	fmt.Println("valor de i: ", i)
+
+	alex := Persona{"Alex", 28, "alex@gmail.com"}
+	alex.diHola()
+}
+
+func editar(i *int) { //recibe un puntero
+	*i = 2 //modifica la posicion en memoria de i
+
 }
