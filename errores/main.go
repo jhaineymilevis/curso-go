@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -15,9 +16,9 @@ func divide(dividendo, divisor int) (int, error) {
 		}
 	}()
 	//con trol de erroes
-	/*if divisor == 0 {
+	if divisor == 0 {
 		return 0, errors.New("No se puede dividir por cero")
-	}*/
+	}
 	validateZero(divisor) //control de erroes con panic
 	return dividendo / divisor, nil
 
