@@ -2,6 +2,16 @@ package book
 
 import "fmt"
 
+/*Polimofrism examples*/
+type Printable interface {
+	PrintInfo() // all clases that have this fucntion implements the interface Printable
+}
+
+// method of Printable interface
+func Print(p Printable) {
+	p.PrintInfo()
+}
+
 /*
 Book object (the equivalent to Class in common POO languages)
 */

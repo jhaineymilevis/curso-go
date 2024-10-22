@@ -2,11 +2,16 @@ package main
 
 import (
 	"fmt"
+	"library/animal"
 	"library/book"
 )
 
 func main() {
-
+	/*----------------------------------------------------------------/
+	  	/*
+	      Polimorfismo
+	*/
+	/*----------------------------------------------------------------*/
 	//Create a instance of Book object
 	var mbBook = book.NewBook("Mody Dick", "Herman Melville", 300, 1090)
 	var thgBook = book.NewBook("The hunger games", "Herman Melville", 300, 2024)
@@ -19,8 +24,8 @@ func main() {
 	}*/
 
 	//Using the PrintInfo Book's method
-	mbBook.PrintInfo()
-	thgBook.PrintInfo()
+	//mbBook.PrintInfo()
+	//thgBook.PrintInfo()
 
 	// Set Year of Mody Dick book
 	mbBook.SetYear(2022)
@@ -35,6 +40,30 @@ func main() {
 		2025,
 	)
 
-	textBook.PrintInfo()
+	//textBook.PrintInfo()
+
+	book.Print(mbBook)
+	book.Print(textBook)
+	book.Print(thgBook)
+
+	/*----------------------------------------------------------------/
+	  	/*
+	      Interfaces
+	*/
+	/*----------------------------------------------------------------*/
+
+	myDog := animal.Dog{Name: "Max"}
+	myCat := animal.Cat{Name: "Chipi"}
+
+	animal.MakeSound(&myDog)
+	animal.MakeSound(&myCat)
+
+	animals := []animal.Animal{
+		&myCat, &myCat, &animal.Cat{Name: "Kiki"}, &animal.Cat{Name: "Kira"},
+	}
+
+	for _, animal := range animals {
+		animal.Sound()
+	}
 
 }
