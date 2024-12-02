@@ -31,6 +31,28 @@ func Sum[T constraints.Integer | constraints.Float](nums ...T) T {
 	return total
 }
 
+func Includes[T comparable](list []T, value T) bool {
+
+	for _, item := range list {
+		if item == value {
+			return true
+		}
+	}
+
+	return false
+}
+
+func Filter[T constraints.Ordered](list []T, callback func(T) bool) []T {
+	filtered := make([]T, 0, len(list))
+
+	for _, item := range list {
+		if callback(item) {
+			filtered = append(filtered, item)
+		}
+	}
+	return filtered
+}
+
 func main() {
 	PrintList("Alex", "John", "Jhainey")
 	PrintList(3, 6, 7, 8, 9, 10, 11)
@@ -44,4 +66,13 @@ func main() {
 	fmt.Println(myInt)
 	fmt.Println(myInt2)
 	fmt.Println(Sum(myInt, myInt2))
+
+	strings := []string{"a", "b", "c"}
+	numbers := []int{1, 2, 3, 6, 7}
+
+	fmt.Println(Includes(strings, "f"))
+	fmt.Println(Includes(numbers, 3))
+
+	fmt.Println(Filter(numbers, func(value int) bool { return value > 3 }))
+	fmt.Println(Filter(strings, func(value string) bool { return value > "b" }))
 }
