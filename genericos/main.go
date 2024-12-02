@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"golang.org/x/exp/constraints"
 )
 
 func PrintList(list ...any) {
@@ -11,8 +13,16 @@ func PrintList(list ...any) {
 
 }
 
+type integer int
+
+type Numbers interface {
+	~int | ~float32 | ~float64 | ~uint
+} //crear restricccion
+
 // funcion generica, con parametro de tipo, restricicones de apromaximacion
-func Sum[T ~int | ~float64](nums ...T) T {
+// func Sum[T ~int | ~float64](nums ...T) T {
+// func Sum[T Numbers](nums ...T) T {
+func Sum[T constraints.Integer | constraints.Float](nums ...T) T {
 	var total T
 	for _, num := range nums {
 		total += num
@@ -20,8 +30,6 @@ func Sum[T ~int | ~float64](nums ...T) T {
 
 	return total
 }
-
-type integer int
 
 func main() {
 	PrintList("Alex", "John", "Jhainey")
