@@ -6,6 +6,15 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+// asi se hacia antes
+func PrintListOldWay(list ...interface{}) {
+	for _, item := range list {
+		fmt.Println(item)
+	}
+
+}
+
+// despues de go 1.18 se usa any
 func PrintList(list ...any) {
 	for _, item := range list {
 		fmt.Println(item)
@@ -58,6 +67,7 @@ func main() {
 	PrintList(3, 6, 7, 8, 9, 10, 11)
 	PrintList("hola", 6, 7, 8, 9, 10, 11)
 
+	fmt.Println(Sum(4.7, 3.6, 4, 5, 3))
 	fmt.Println(Sum[int](4, 3, 4, 5, 3))
 	fmt.Println(Sum[float64](4.5, 3.1, 4.4, 5, 3.6))
 
