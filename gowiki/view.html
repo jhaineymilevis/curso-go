@@ -1,0 +1,7 @@
+<h1>{{.Title}}</h1>
+<div>{{printf "%s" .Body }}</div>
+<p>
+  <a href="/edit/{{.Title}}" class="btn btn-primary">Editar</a>
+  <a href="/delete/{{.Title}}" class="btn btn-danger">Eliminar</a>
+  <a href="/" class="btn btn-secondary">Volver</a>
+</p>
