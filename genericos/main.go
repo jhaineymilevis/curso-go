@@ -62,6 +62,12 @@ func Filter[T constraints.Ordered](list []T, callback func(T) bool) []T {
 	return filtered
 }
 
+type Product struct {
+	Id    uint
+	Name  string
+	Price float32
+}
+
 func main() {
 	PrintList("Alex", "John", "Jhainey")
 	PrintList(3, 6, 7, 8, 9, 10, 11)
@@ -85,4 +91,7 @@ func main() {
 
 	fmt.Println(Filter(numbers, func(value int) bool { return value > 3 }))
 	fmt.Println(Filter(strings, func(value string) bool { return value > "b" }))
+
+	prodct1 := Product{1, "Producto 1", 12}
+	fmt.Println(prodct1)
 }
