@@ -60,14 +60,34 @@ func editPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func savePageHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/save/"):]
-	p := &Page{Title: title}
-	p.save().Error()
+	body := r.FormValue("body")
+	fmt.Println("Title:", title)
+	fmt.Println("Body:", body)
+	p := &Page{Title: title, Body: []byte(body)}
+
+	err := p.save()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/view/"+title, http.StatusFound)
 
 }
 
 func renderRemplates(w http.ResponseWriter, tmpl string, p *Page) {
-	t, _ := template.ParseFiles(tmpl)
-	t.Execute(w, p)
+	t, err := template.ParseFiles(tmpl)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = t.Execute(w, p)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Println("Template rendered successfully")
 
 }
 
@@ -84,7 +104,7 @@ func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/view/", viewHandler)
 	http.HandleFunc("/edit/", editPageHandler)
-	http.HandleFunc("/save/", editPageHandler)
+	http.HandleFunc("/save/", savePageHandler)
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
