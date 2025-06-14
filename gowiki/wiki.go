@@ -38,11 +38,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hola! me encantan los %s", message)
 }
 
-func viewHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
+func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
+
 	p, err := loadPage(title)
 	if err != nil {
 
@@ -53,11 +50,8 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	renderRemplates(w, "view.html", p)
 }
 
-func editPageHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
+func editPageHandler(w http.ResponseWriter, r *http.Request, title string) {
+
 	p, err := loadPage(title)
 	if err != nil {
 		p = &Page{Title: title}
@@ -79,17 +73,14 @@ func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
 	return m[2], nil
 }
 
-func savePageHandler(w http.ResponseWriter, r *http.Request) {
-	title, err := getTitle(w, r)
-	if err != nil {
-		return
-	}
+func savePageHandler(w http.ResponseWriter, r *http.Request, title string) {
+
 	body := r.FormValue("body")
 	fmt.Println("Title:", title)
 	fmt.Println("Body:", body)
 	p := &Page{Title: title, Body: []byte(body)}
 
-	err = p.save()
+	err := p.save()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -122,6 +113,20 @@ func renderRemplates(w http.ResponseWriter, tmpl string, p *Page) {
 
 }
 
+// function clousure to wrap the handler functions
+// this allows us to pass the title as an argument to the handler functions
+// it also allows us to handle the error of getting the title in a single place
+// this is a common pattern in Go to avoid repeating code
+func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		title, err := getTitle(w, r)
+		if err != nil {
+			return
+		}
+		fn(w, r, title)
+	}
+}
+
 func main() {
 	// p1 := &Page{Title: "Test page", Body: []byte("This is a test page")}
 	// p1.save()
@@ -133,9 +138,9 @@ func main() {
 	// }
 	// fmt.Println(string(p2.Body))
 	http.HandleFunc("/", handler)
-	http.HandleFunc("/view/", viewHandler)
-	http.HandleFunc("/edit/", editPageHandler)
-	http.HandleFunc("/save/", savePageHandler)
+	http.HandleFunc("/view/", makeHandler(viewHandler))
+	http.HandleFunc("/edit/", makeHandler(editPageHandler))
+	http.HandleFunc("/save/", makeHandler(savePageHandler))
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
