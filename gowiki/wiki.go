@@ -75,13 +75,20 @@ func savePageHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// voy a cargar todas las plantillas para manejarlas en cache
+var templates = template.Must(template.ParseFiles("view.html", "edit.html"))
+
 func renderRemplates(w http.ResponseWriter, tmpl string, p *Page) {
-	t, err := template.ParseFiles(tmpl)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	err = t.Execute(w, p)
+
+	// ya no usamos parseFile sporque ya las cargamos en cache
+	// t, err := template.ParseFiles(tmpl)
+	// 	if err != nil {
+	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 		return
+	// 	}
+	// 	err = t.Execute(w, p)
+
+	err := templates.ExecuteTemplate(w, tmpl, p)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
