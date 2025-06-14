@@ -38,7 +38,8 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
 	p, err := loadPage(title)
 	if err != nil {
-		http.Error(w, "Page not found", http.StatusNotFound)
+
+		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
 		return
 	}
 
@@ -49,8 +50,8 @@ func editPageHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
 	p, err := loadPage(title)
 	if err != nil {
-		http.Error(w, "Page not found", http.StatusNotFound)
-		return
+		p = &Page{Title: title}
+
 	}
 
 	renderRemplates(w, "edit.html", p)
@@ -58,6 +59,9 @@ func editPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func savePageHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/save/"):]
+	p := &Page{Title: title}
+	p.save().Error()
 
 }
 
