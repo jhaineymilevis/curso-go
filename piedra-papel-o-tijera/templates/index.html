@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <h1>{{ .Message }}</h1>
+    <form action="/play" method="post">
+      <label>Elige tu jugada:</label><br />
+      <input
+        type="radio"
+        id="piedra"
+        name="player_choice"
+        value="piedra"
+        required
+      />
+      <label for="piedra">Piedra</label><br />
+      <input type="radio" id="papel" name="player_choice" value="papel" />
+      <label for="papel">Papel</label><br />
+      <input type="radio" id="tijera" name="player_choice" value="tijera" />
+      <label for="tijera">Tijera</label><br />
+    </form>
+  </body>
+</html>
