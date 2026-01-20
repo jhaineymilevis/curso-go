@@ -1,19 +1,30 @@
-{{template "base" .}} {{define "title"}}Piedra, Papel o Tijera{{end}} {{define
-"content"}}
-<h1>Bienvenido al juego</h1>
-<form action="/play" method="post">
-  <label>Elige tu jugada:</label><br />
-  <input
-    type="radio"
-    id="piedra"
-    name="player_choice"
-    value="piedra"
-    required
-  />
-  <label for="piedra">Piedra</label><br />
-  <input type="radio" id="papel" name="player_choice" value="papel" />
-  <label for="papel">Papel</label><br />
-  <input type="radio" id="tijera" name="player_choice" value="tijera" />
-  <label for="tijera">Tijera</label><br />
-</form>
+{{template "base" .}} 
+
+{{define "title"}}Piedra, Papel o Tijera{{end}} 
+
+{{define "content"}}
+
+<section class="container py-5">
+
+  <h1 class="text-center fw-bold py-3 ">Bienvenido al juego piedra, papel o tijera</h1>
+
+  <div class="row">
+    <div class="col-md-4">
+      <img src="/static/imgs/rock_icon.png" alt="Piedra" class="img-fluid">
+    </div>
+    <div class="col-md-4">
+      <img src="/static/imgs/paper_icon.png" alt="Papel" class="img-fluid">
+    </div>
+    <div class="col-md-4">
+      <img src="/static/imgs/scissors_icon.png" alt="Tijera" class="img-fluid">
+    </div>
+  </div>
+
+  <p class="lead text-center py-3 fs-2 py-4">Juega contra la computadora</p>
+  <p class="text-center">
+    <a href="/new" class="btn btn-primary btn-lg">Nuevo juego</a>
+  </p>
+</section>
+
+
 {{end}}

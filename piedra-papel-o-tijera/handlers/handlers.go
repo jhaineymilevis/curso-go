@@ -17,7 +17,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewGame(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "new_game.html", nil)
+	renderTemplate(w, "new-game.html", nil)
 }
 func Game(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "game.html", nil)

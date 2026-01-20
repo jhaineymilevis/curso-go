@@ -10,10 +10,10 @@ func main() {
 	//enrutador
 	router := http.NewServeMux()
 
-	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	//w.Write([]byte("Hola, mundo!"))
-	// 	fmt.Fprintln(w, "Hola mundo")
-	// })
+	//manejo de archivos estaticos
+	fs := http.FileServer(http.Dir("static"))
+	//ruta para accder a lso achivos estaticos
+	router.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	router.HandleFunc("/", handlers.Index)
 	router.HandleFunc("/new", handlers.NewGame)
